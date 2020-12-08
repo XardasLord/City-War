@@ -10,6 +10,11 @@ namespace Networking
             base.OnServerAddPlayer(conn);
 
             Debug.Log($"Player with ID {conn.connectionId} connected to the server! Active numbers of players on the server: {numPlayers}");
+
+            if (!conn.identity.isLocalPlayer)
+            {
+                Debug.Log("Client connected (not host)");
+            }
         }
     }
 }
