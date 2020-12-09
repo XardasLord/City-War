@@ -31,7 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5162563395516877212}
+  - {fileID: 1397912467388636297}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  target: {fileID: 5046089498264745900}
+  target: {fileID: 0}
   clientAuthority: 1
   syncVelocity: 1
   clearVelocity: 0
@@ -89,8 +89,9 @@ MonoBehaviour:
   syncInterval: 0.1
   moveInputs: {x: 0, y: 0}
   lookInputs: {x: 0, y: 0}
-  playerBody: {fileID: 5046089498264745900}
+  playerBody: {fileID: 4886076243742393840}
   movementSpeed: 25
+  maxSpeed: 5
   playerHead: {fileID: 0}
   lookAngleRange: 60
   turnSpeed: 100
@@ -192,7 +193,7 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &4777740129614631139
+--- !u!1 &4751041434462587211
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,11 +201,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5162563395516877212}
-  - component: {fileID: 7304098169203917526}
-  - component: {fileID: 7228605928589518068}
-  - component: {fileID: 2124047385020890396}
-  - component: {fileID: 5046089498264745900}
+  - component: {fileID: 1397912467388636297}
+  - component: {fileID: 3757221707239524002}
+  - component: {fileID: 5958219065538164772}
+  - component: {fileID: 1857595510502115274}
+  - component: {fileID: 4886076243742393840}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -212,13 +213,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5162563395516877212
+--- !u!4 &1397912467388636297
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777740129614631139}
+  m_GameObject: {fileID: 4751041434462587211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -226,21 +227,21 @@ Transform:
   m_Father: {fileID: 5030452320178655992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7304098169203917526
+--- !u!33 &3757221707239524002
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777740129614631139}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7228605928589518068
+  m_GameObject: {fileID: 4751041434462587211}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &5958219065538164772
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777740129614631139}
+  m_GameObject: {fileID: 4751041434462587211}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -275,26 +276,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2124047385020890396
-BoxCollider:
+--- !u!136 &1857595510502115274
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777740129614631139}
+  m_GameObject: {fileID: 4751041434462587211}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5046089498264745900
+--- !u!54 &4886076243742393840
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4777740129614631139}
+  m_GameObject: {fileID: 4751041434462587211}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
