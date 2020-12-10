@@ -57,7 +57,7 @@ namespace Gameplay
 
         private void Look()
         {
-            if (!hasAuthority)
+            if (!hasAuthority || isServer)
                 return;
 
             if (lookInputs == Vector2.zero)
