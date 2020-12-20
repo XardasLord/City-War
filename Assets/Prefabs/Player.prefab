@@ -144,7 +144,7 @@ MonoBehaviour:
   syncInterval: 0.1
   lookInputs: {x: 0, y: 0}
   lookAngleRange: 60
-  turnSpeed: 50
+  turnSpeed: 10
 --- !u!114 &8189819462631503913
 MonoBehaviour:
   m_ObjectHideFlags: 0
