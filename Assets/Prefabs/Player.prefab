@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: 1997646117575778}
   - component: {fileID: 1997646117575777}
   - component: {fileID: 1997646117575776}
+  - component: {fileID: 8908183647408930681}
   - component: {fileID: 1997646117575782}
   - component: {fileID: 1997646117575781}
   - component: {fileID: 1997646117575780}
@@ -473,12 +474,12 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3727898198258332075}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 535511bb156e7f54f83f305d96a1c4ce, type: 3}
   m_Controller: {fileID: 9100000, guid: d9a4f2a037afc4e4f9f999ba7b0ba7bf, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -556,6 +557,22 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &8908183647408930681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727898198258332075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  animator: {fileID: 3670252959179506775}
 --- !u!114 &1997646117575782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,8 +625,8 @@ MonoBehaviour:
   lookInputs: {x: 0, y: 0}
   lookAngleRange: 70
   lookSensitivity: 40
-  moveSpeed: 4000
-  maxSpeed: 40
+  moveSpeed: 600
+  maxSpeed: 5
   grounded: 0
   whatIsGround:
     serializedVersion: 2

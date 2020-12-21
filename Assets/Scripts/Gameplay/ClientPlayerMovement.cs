@@ -15,6 +15,7 @@ namespace Gameplay
         [SerializeField] private Vector2 lookInputs; // X for rotate left/right, Y for look up/down
 
         private Rigidbody _playerRigidbody;
+        private Animator _animator;
 
         [Header("Rotation & look")]
         [SerializeField] private float lookAngleRange = 60f; // 60' up, 60' down
@@ -75,7 +76,10 @@ namespace Gameplay
         }
 
         private void Awake()
-            => _playerRigidbody = GetComponent<Rigidbody>();
+        {
+            _playerRigidbody = GetComponent<Rigidbody>();
+            _animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
@@ -179,6 +183,9 @@ namespace Gameplay
             //Apply forces to move player
             _playerRigidbody.AddForce(orientation.transform.forward * (moveInputs.y * moveSpeed * Time.deltaTime * multiplier * multiplierV));
             _playerRigidbody.AddForce(orientation.transform.right * (moveInputs.x * moveSpeed * Time.deltaTime * multiplier));
+
+            _animator.SetFloat("Horizontal", moveInputs.x, 0.1f, Time.fixedDeltaTime);
+            _animator.SetFloat("Vertical", moveInputs.y, 0.1f, Time.fixedDeltaTime);
         }
 
         private void Jump()
