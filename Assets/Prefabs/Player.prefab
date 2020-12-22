@@ -655,7 +655,7 @@ MonoBehaviour:
   maxSlopeAngle: 35
   slideForce: 400
   slideCounterMovement: 0.2
-  jumpForce: 550
+  jumpForce: 120
 --- !u!114 &1997646117575779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +761,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9540f6ec-8d45-49d0-8834-cfd946ce957e
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1997646117575780}
+        m_TargetAssemblyTypeName: Gameplay.ClientPlayerMovement, Assembly-CSharp
+        m_MethodName: UpdateJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fbef6d91-d51d-4b2b-9e15-ac8d036efdd4
+    m_ActionName: Gameplay/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

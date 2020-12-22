@@ -22,6 +22,7 @@ namespace Gameplay
         [SerializeField] private float lookSensitivity = 50f;
         private float _lookSensitivityMultiplier = 1f;
         private float _lookRotationX;
+        private float desiredX;
 
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 4500;
@@ -66,6 +67,9 @@ namespace Gameplay
 
         public void UpdateLookInputs(InputAction.CallbackContext context) 
             => lookInputs = context.ReadValue<Vector2>();
+
+        public void UpdateJumpInput(InputAction.CallbackContext context)
+            => jumping = context.ReadValueAsButton();
 
         #endregion
 
@@ -152,7 +156,8 @@ namespace Gameplay
             CounterMovement(moveInputs.x, moveInputs.y, mag);
 
             //If holding jump && ready to jump, then jump
-            if (_readyToJump && jumping) Jump();
+            if (_readyToJump && jumping) 
+                Jump();
 
             //If sliding down a ramp, add force down so player stays grounded and also builds speed
             if (crouching && grounded && _readyToJump)
@@ -193,6 +198,7 @@ namespace Gameplay
             if (grounded && _readyToJump)
             {
                 _readyToJump = false;
+                _animator.SetTrigger("Jump");
 
                 //Add jump forces
                 _playerRigidbody.AddForce(Vector2.up * (jumpForce * 1.5f));
@@ -213,8 +219,6 @@ namespace Gameplay
         {
             _readyToJump = true;
         }
-
-        private float desiredX;
 
         private void Look()
         {
