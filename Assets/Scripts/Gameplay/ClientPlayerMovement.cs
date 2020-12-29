@@ -43,7 +43,7 @@ namespace Gameplay
         private float _jumpCooldown = 0.25f;
 
         //Inputs
-        private bool _jumping, sprinting, _crouching;
+        private bool _jumping, _crouching;
         private bool _crouchToggleRequest;
 
         //Sliding
@@ -71,7 +71,7 @@ namespace Gameplay
             => _jumping = context.ReadValueAsButton();
 
         public void UpdateCrouchInput(InputAction.CallbackContext context)
-            => _crouchToggleRequest = context.action.triggered && context.ReadValue<float>() > 0; // TODO: Get equivalent of GetButtonDown etc. for crouching https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Interactions.html#press
+            => _crouchToggleRequest = context.action.triggered && context.ReadValue<float>() > 0;
 
         #endregion
 
@@ -87,37 +87,11 @@ namespace Gameplay
             _animator = GetComponent<Animator>();
         }
 
-        private void Start()
-        {
-            //Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = false;
-        }
-
-
-        private void FixedUpdate()
-        {
-            Move();
-        }
+        private void FixedUpdate() 
+            => Move();
 
         private void Update()
-        {
-            Look();
-        }
-
-        private void StartCrouch()
-        {
-            _animator.SetFloat("Crouch", 1f);
-
-            if (_playerRigidbody.velocity.magnitude > 0.5f && grounded)
-            {
-                _playerRigidbody.AddForce(orientation.transform.forward * slideForce);
-            }
-        }
-
-        private void StopCrouch()
-        {
-            _animator.SetFloat("Crouch", 0f);
-        }
+            => Look();
 
         private void Move()
         {
@@ -135,26 +109,18 @@ namespace Gameplay
             CounterMovement(moveInputs.x, moveInputs.y, mag);
 
             //If holding jump && ready to jump, then jump
-            if (_readyToJump && _jumping) 
+            if (_readyToJump && _jumping && !_crouching) 
                 Jump();
 
             if (_crouchToggleRequest)
-            {
-                _crouching = !_crouching;
-                _crouchToggleRequest = false;
-
-                if (_crouching)
-                    StartCrouch();
-                else
-                    StopCrouch();
-            }
+                HandleCrouching();
 
             //If sliding down a ramp, add force down so player stays grounded and also builds speed
-            if (_crouching && grounded && _readyToJump)
-            {
-                _playerRigidbody.AddForce(Vector3.down * (Time.deltaTime * 3000));
-                return;
-            }
+            //if (_crouching && grounded && _readyToJump)
+            //{
+            //    _playerRigidbody.AddForce(Vector3.down * (Time.deltaTime * 3000));
+            //    return;
+            //}
 
             //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
             if (moveInputs.x > 0 && xMag > maxSpeed) moveInputs.x = 0;
@@ -173,8 +139,8 @@ namespace Gameplay
             }
 
             // Move while sliding
-            if (grounded && _crouching) 
-                multiplierV = 0f;
+            //if (grounded && _crouching) 
+            //    multiplierV = 0f;
 
             //Apply forces to move player
             _playerRigidbody.AddForce(orientation.transform.forward * (moveInputs.y * moveSpeed * Time.deltaTime * multiplier * multiplierV));
@@ -190,26 +156,42 @@ namespace Gameplay
             {
                 _readyToJump = false;
                 _animator.SetTrigger("Jump");
+                _animator.ResetTrigger("Jump");
 
                 //Add jump forces
                 _playerRigidbody.AddForce(Vector2.up * (jumpForce * 1.5f));
                 _playerRigidbody.AddForce(normalVector * (jumpForce * 0.5f));
 
                 //If jumping while falling, reset y velocity.
-                Vector3 vel = _playerRigidbody.velocity;
+                var velocity = _playerRigidbody.velocity;
                 if (_playerRigidbody.velocity.y < 0.5f)
-                    _playerRigidbody.velocity = new Vector3(vel.x, 0, vel.z);
+                    _playerRigidbody.velocity = new Vector3(velocity.x, 0, velocity.z);
                 else if (_playerRigidbody.velocity.y > 0)
-                    _playerRigidbody.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
+                    _playerRigidbody.velocity = new Vector3(velocity.x, velocity.y / 2, velocity.z);
 
                 Invoke(nameof(ResetJump), _jumpCooldown);
             }
         }
 
-        private void ResetJump()
+        private void ResetJump() 
+            => _readyToJump = true;
+
+        private void HandleCrouching()
         {
-            _readyToJump = true;
+            _crouching = !_crouching;
+            _crouchToggleRequest = false;
+
+            if (_crouching)
+                StartCrouch();
+            else
+                StopCrouch();
         }
+
+        private void StartCrouch() 
+            => _animator.SetFloat("Crouch", 1f);
+
+        private void StopCrouch() 
+            => _animator.SetFloat("Crouch", 0f);
 
         private void Look()
         {
