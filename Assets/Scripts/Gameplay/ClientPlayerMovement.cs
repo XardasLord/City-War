@@ -36,16 +36,15 @@ namespace Gameplay
         [Header("Crouch & Slide")]
         [SerializeField] private float slideForce = 400;
         [SerializeField] private float slideCounterMovement = 0.2f;
-        private Vector3 crouchScale = new Vector3(1, 0.5f, 1);
-        private Vector3 playerScale;
 
         [Header("Jumping")]
         [SerializeField] private float jumpForce = 550f;
         private bool _readyToJump = true;
         private float _jumpCooldown = 0.25f;
 
-        //Input
-        bool jumping, sprinting, crouching;
+        //Inputs
+        private bool _jumping, sprinting, _crouching;
+        private bool _crouchToggleRequest;
 
         //Sliding
         private Vector3 normalVector = Vector3.up;
@@ -69,7 +68,10 @@ namespace Gameplay
             => lookInputs = context.ReadValue<Vector2>();
 
         public void UpdateJumpInput(InputAction.CallbackContext context)
-            => jumping = context.ReadValueAsButton();
+            => _jumping = context.ReadValueAsButton();
+
+        public void UpdateCrouchInput(InputAction.CallbackContext context)
+            => _crouchToggleRequest = context.action.triggered && context.ReadValue<float>() > 0; // TODO: Get equivalent of GetButtonDown etc. for crouching https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Interactions.html#press
 
         #endregion
 
@@ -87,7 +89,6 @@ namespace Gameplay
 
         private void Start()
         {
-            playerScale = transform.localScale;
             //Cursor.lockState = CursorLockMode.Locked;
             //Cursor.visible = false;
         }
@@ -100,45 +101,23 @@ namespace Gameplay
 
         private void Update()
         {
-            //MyInput();
             Look();
         }
 
-        /// <summary>
-        /// Find user input. Should put this in its own class but im lazy
-        /// </summary>
-        //private void MyInput()
-        //{
-        //    x = Input.GetAxisRaw("Horizontal");
-        //    y = Input.GetAxisRaw("Vertical");
-        //    jumping = Input.GetButton("Jump");
-        //    crouching = Input.GetKey(KeyCode.LeftControl);
+        private void StartCrouch()
+        {
+            _animator.SetFloat("Crouch", 1f);
 
-        //    //Crouching
-        //    if (Input.GetKeyDown(KeyCode.LeftControl))
-        //        StartCrouch();
-        //    if (Input.GetKeyUp(KeyCode.LeftControl))
-        //        StopCrouch();
-        //}
+            if (_playerRigidbody.velocity.magnitude > 0.5f && grounded)
+            {
+                _playerRigidbody.AddForce(orientation.transform.forward * slideForce);
+            }
+        }
 
-        //private void StartCrouch()
-        //{
-        //    transform.localScale = crouchScale;
-        //    transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
-        //    if (_playerRigidbody.velocity.magnitude > 0.5f)
-        //    {
-        //        if (grounded)
-        //        {
-        //            _playerRigidbody.AddForce(orientation.transform.forward * slideForce);
-        //        }
-        //    }
-        //}
-
-        //private void StopCrouch()
-        //{
-        //    transform.localScale = playerScale;
-        //    transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-        //}
+        private void StopCrouch()
+        {
+            _animator.SetFloat("Crouch", 0f);
+        }
 
         private void Move()
         {
@@ -156,11 +135,22 @@ namespace Gameplay
             CounterMovement(moveInputs.x, moveInputs.y, mag);
 
             //If holding jump && ready to jump, then jump
-            if (_readyToJump && jumping) 
+            if (_readyToJump && _jumping) 
                 Jump();
 
+            if (_crouchToggleRequest)
+            {
+                _crouching = !_crouching;
+                _crouchToggleRequest = false;
+
+                if (_crouching)
+                    StartCrouch();
+                else
+                    StopCrouch();
+            }
+
             //If sliding down a ramp, add force down so player stays grounded and also builds speed
-            if (crouching && grounded && _readyToJump)
+            if (_crouching && grounded && _readyToJump)
             {
                 _playerRigidbody.AddForce(Vector3.down * (Time.deltaTime * 3000));
                 return;
@@ -183,7 +173,8 @@ namespace Gameplay
             }
 
             // Move while sliding
-            if (grounded && crouching) multiplierV = 0f;
+            if (grounded && _crouching) 
+                multiplierV = 0f;
 
             //Apply forces to move player
             _playerRigidbody.AddForce(orientation.transform.forward * (moveInputs.y * moveSpeed * Time.deltaTime * multiplier * multiplierV));
@@ -242,10 +233,10 @@ namespace Gameplay
 
         private void CounterMovement(float x, float y, Vector2 mag)
         {
-            if (!grounded || jumping) return;
+            if (!grounded || _jumping) return;
 
             //Slow down sliding
-            if (crouching)
+            if (_crouching)
             {
                 _playerRigidbody.AddForce(moveSpeed * Time.deltaTime * -_playerRigidbody.velocity.normalized * slideCounterMovement);
                 return;
