@@ -22,20 +22,20 @@ namespace Gameplay
         [SerializeField] private float lookSensitivity = 50f;
         private float _lookSensitivityMultiplier = 1f;
         private float _lookRotationX;
-        private float desiredX;
+        private float _desiredX;
 
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 4500;
         [SerializeField] private float maxSpeed = 20;
         [SerializeField] private bool grounded;
-        [SerializeField] private LayerMask whatIsGround;
+        [SerializeField] private LayerMask groundLayer;
         [SerializeField] private float counterMovement = 0.175f;
         [SerializeField] private float maxSlopeAngle = 35f;
         private float _moveThreshold = 0.01f;
 
-        [Header("Crouch & Slide")]
-        [SerializeField] private float slideForce = 400;
+        [Header("Crouching")]
         [SerializeField] private float slideCounterMovement = 0.2f;
+        private Vector3 _normalVector = Vector3.up;
 
         [Header("Jumping")]
         [SerializeField] private float jumpForce = 550f;
@@ -45,10 +45,6 @@ namespace Gameplay
         //Inputs
         private bool _jumping, _crouching;
         private bool _crouchToggleRequest;
-
-        //Sliding
-        private Vector3 normalVector = Vector3.up;
-        private Vector3 wallNormalVector;
 
         #region Receive Input Values
         // Call these functions from the PlayerInput component as set up by this guide:
@@ -115,13 +111,6 @@ namespace Gameplay
             if (_crouchToggleRequest)
                 HandleCrouching();
 
-            //If sliding down a ramp, add force down so player stays grounded and also builds speed
-            //if (_crouching && grounded && _readyToJump)
-            //{
-            //    _playerRigidbody.AddForce(Vector3.down * (Time.deltaTime * 3000));
-            //    return;
-            //}
-
             //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
             if (moveInputs.x > 0 && xMag > maxSpeed) moveInputs.x = 0;
             if (moveInputs.x < 0 && xMag < -maxSpeed) moveInputs.x = 0;
@@ -138,9 +127,9 @@ namespace Gameplay
                 multiplierV = 0.5f;
             }
 
-            // Move while sliding
-            //if (grounded && _crouching) 
-            //    multiplierV = 0f;
+            // Move while crouching
+            if (grounded && _crouching)
+                multiplierV = 0.8f;
 
             //Apply forces to move player
             _playerRigidbody.AddForce(orientation.transform.forward * (moveInputs.y * moveSpeed * Time.deltaTime * multiplier * multiplierV));
@@ -160,7 +149,7 @@ namespace Gameplay
 
                 //Add jump forces
                 _playerRigidbody.AddForce(Vector2.up * (jumpForce * 1.5f));
-                _playerRigidbody.AddForce(normalVector * (jumpForce * 0.5f));
+                _playerRigidbody.AddForce(_normalVector * (jumpForce * 0.5f));
 
                 //If jumping while falling, reset y velocity.
                 var velocity = _playerRigidbody.velocity;
@@ -202,20 +191,21 @@ namespace Gameplay
 
             //Find current look rotation
             var currentRotation = playerCam.transform.localRotation.eulerAngles;
-            desiredX = currentRotation.y + mouseLook.x;
+            _desiredX = currentRotation.y + mouseLook.x;
 
             //Rotate, and also make sure we don't over-rotate or under-rotate.
             _lookRotationX -= mouseLook.y;
             _lookRotationX = Mathf.Clamp(_lookRotationX, -lookAngleRange, lookAngleRange);
 
             //Perform the rotations
-            playerCam.transform.localRotation = Quaternion.Euler(_lookRotationX, desiredX, 0);
-            orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+            playerCam.transform.localRotation = Quaternion.Euler(_lookRotationX, _desiredX, 0);
+            orientation.transform.localRotation = Quaternion.Euler(0, _desiredX, 0);
         }
 
         private void CounterMovement(float x, float y, Vector2 mag)
         {
-            if (!grounded || _jumping) return;
+            if (!grounded || _jumping)
+                return;
 
             //Slow down sliding
             if (_crouching)
@@ -269,7 +259,7 @@ namespace Gameplay
             return angle < maxSlopeAngle;
         }
 
-        private bool cancellingGrounded;
+        private bool _cancellingGrounded;
 
         /// <summary>
         /// Handle ground detection
@@ -278,7 +268,7 @@ namespace Gameplay
         {
             //Make sure we are only checking for walkable layers
             int layer = other.gameObject.layer;
-            if (whatIsGround != (whatIsGround | (1 << layer))) return;
+            if (groundLayer != (groundLayer | (1 << layer))) return;
 
             //Iterate through every collision in a physics update
             for (int i = 0; i < other.contactCount; i++)
@@ -288,25 +278,22 @@ namespace Gameplay
                 if (IsFloor(normal))
                 {
                     grounded = true;
-                    cancellingGrounded = false;
-                    normalVector = normal;
+                    _cancellingGrounded = false;
+                    _normalVector = normal;
                     CancelInvoke(nameof(StopGrounded));
                 }
             }
 
             //Invoke ground/wall cancel, since we can't check normals with CollisionExit
             float delay = 3f;
-            if (!cancellingGrounded)
+            if (!_cancellingGrounded)
             {
-                cancellingGrounded = true;
+                _cancellingGrounded = true;
                 Invoke(nameof(StopGrounded), Time.deltaTime * delay);
             }
         }
 
-        private void StopGrounded()
-        {
-            grounded = false;
-        }
-
+        private void StopGrounded() 
+            => grounded = false;
     }
 }
