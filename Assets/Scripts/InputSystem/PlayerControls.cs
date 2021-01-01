@@ -248,7 +248,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""8789c01d-1322-46e5-bea4-63533fc0beed"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Fire"",

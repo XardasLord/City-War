@@ -74,7 +74,11 @@ namespace Gameplay
         public override void OnStartLocalPlayer()
         {
             if (!isServer)
+            {
                 enabled = true;
+                //Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.visible = false;
+            }
         }
 
         private void Awake()
