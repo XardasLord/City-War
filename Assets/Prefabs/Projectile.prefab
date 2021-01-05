@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 1033568456}
   - component: {fileID: -510764036641595937}
   - component: {fileID: 4813981602079166102}
+  - component: {fileID: 8659409683230746336}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,3 +172,18 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &8659409683230746336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4734189613923686683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b46f2863e9b9248a7702ec04439fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  projectileLife: 3

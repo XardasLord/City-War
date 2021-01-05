@@ -25,17 +25,14 @@ namespace Gameplay.Weapons
             {
                 if (CanShoot())
                 {
-                    // Create a ray from the camera going through the middle of your screen
                     var screenCenterRay = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-                    // Check whether your are pointing to something so as to adjust the direction
                     Vector3 targetPoint;
                     if (Physics.Raycast(screenCenterRay, out var hit))
                         targetPoint = hit.point;
                     else
-                        targetPoint = screenCenterRay.GetPoint(1000); // You may need to change this value according to your needs
+                        targetPoint = screenCenterRay.GetPoint(1000);
 
-                    //CmdFire(netIdentity);
                     CmdFire(targetPoint);
                 }
             }
@@ -44,23 +41,6 @@ namespace Gameplay.Weapons
         [ClientCallback]
         private void Awake() 
             => _camera = Camera.main;
-
-        private void Update()
-        {
-            if (!hasAuthority || !isLocalPlayer || isServer)
-                return;
-
-            var screenCenterRay = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
-            // Check whether your are pointing to something so as to adjust the direction
-            Vector3 targetPoint;
-            if (Physics.Raycast(screenCenterRay, out var hit))
-                targetPoint = hit.point;
-            else
-                targetPoint = screenCenterRay.GetPoint(1000); // You may need to change this value according to your needs
-
-            Debug.DrawLine(screenCenterRay.origin, targetPoint, Color.yellow);
-        }
 
         #region Server
 
@@ -73,8 +53,6 @@ namespace Gameplay.Weapons
             _weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
 
             activeWeapon.Fire(targetPoint);
-
-            // TODO: ClientRpc call
         }
 
         #endregion

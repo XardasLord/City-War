@@ -837,7 +837,6 @@ MonoBehaviour:
   activeWeapon: {fileID: 8691945534722547586}
   availableWeapons:
   - {fileID: 8691945534722547586}
-  cameraParentMount: {fileID: 589727184}
 --- !u!114 &2139384130852845218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3387,11 +3386,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  weaponSpeed: 15
-  weaponLife: 3
+  weaponProjectileSpeed: 15
   weaponCooldown: 1
   weaponAmmo: 15
-  weaponBullet: {fileID: 4734189613923686683, guid: 56e19642e105eba4390b01f627cd6af6, type: 3}
+  weaponProjectile: {fileID: 8659409683230746336, guid: 56e19642e105eba4390b01f627cd6af6, type: 3}
   weaponFirePosition: {fileID: 6042249949177720929}
 --- !u!1 &8391019138913687634
 GameObject:
