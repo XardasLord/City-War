@@ -16,6 +16,8 @@ namespace Gameplay.Weapons
             projectile.SetWeapon(this);
 
             NetworkServer.Spawn(projectile.gameObject);
+
+            // TODO: Particle effect of fire
         }
     }
 }

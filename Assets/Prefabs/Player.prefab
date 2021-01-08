@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 255446841}
   m_Layer: 0
   m_Name: Orientation
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 4820184918357200550}
   m_Layer: 0
   m_Name: Robot_Soldier_Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 1997646117575779}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1357,7 +1357,7 @@ GameObject:
   - component: {fileID: 3626171929039369061}
   m_Layer: 0
   m_Name: Robot_Soldier_Feet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1477,7 +1477,7 @@ GameObject:
   - component: {fileID: 3626207589600659953}
   m_Layer: 0
   m_Name: Robot_Soldier_Arms2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1602,7 +1602,7 @@ GameObject:
   - component: {fileID: 3626519619293612867}
   m_Layer: 0
   m_Name: Robot_Soldier_Legs2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1723,7 +1723,7 @@ GameObject:
   - component: {fileID: 3629338337346403721}
   m_Layer: 0
   m_Name: Robot_Soldier_Head
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2958,7 +2958,7 @@ GameObject:
   - component: {fileID: 3626154356591112305}
   m_Layer: 0
   m_Name: Robot_Soldier_Rifle
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3103,7 +3103,7 @@ GameObject:
   - component: {fileID: 3722795880617155301}
   m_Layer: 0
   m_Name: Hips
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3229,7 +3229,7 @@ GameObject:
   - component: {fileID: 3626185486134480001}
   m_Layer: 0
   m_Name: Robot_Soldier_Arms1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3387,9 +3387,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   weaponProjectileSpeed: 15
+  weaponProjectileLifeInSeconds: 3
+  weaponProjectile: {fileID: 8659409683230746336, guid: 56e19642e105eba4390b01f627cd6af6, type: 3}
+  weaponDamage: 10
   weaponCooldown: 1
   weaponAmmo: 15
-  weaponProjectile: {fileID: 8659409683230746336, guid: 56e19642e105eba4390b01f627cd6af6, type: 3}
   weaponFirePosition: {fileID: 6042249949177720929}
 --- !u!1 &8391019138913687634
 GameObject:

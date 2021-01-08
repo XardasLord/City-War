@@ -28,7 +28,15 @@ namespace Gameplay.Weapons
         [ServerCallback]
         private void OnTriggerEnter(Collider collider)
         {
-            Debug.Log($"Projectile hit with damage - {_shotFromWeapon.weaponDamage}");
+            Debug.Log(collider);
+            if (collider.gameObject.CompareTag("Player"))
+            {
+                // TODO: Detect body part and apply some additional damage multiplier value based on that
+                Debug.Log($"Projectile hit player with damage - {_shotFromWeapon.weaponDamage}");
+                
+                // TODO: Particle effect of hit
+            }
+
             NetworkServer.Destroy(gameObject);
         }
 
