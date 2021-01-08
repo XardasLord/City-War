@@ -12,8 +12,8 @@ namespace Gameplay.Weapons
 
             var projectile = Instantiate(weaponProjectile, weaponFirePosition.position, weaponFirePosition.rotation);
 
-            projectile.transform.LookAt(destinationPoint);
-            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * weaponProjectileSpeed, ForceMode.VelocityChange);
+            projectile.SetDestination(destinationPoint);
+            projectile.SetWeapon(this);
 
             NetworkServer.Spawn(projectile.gameObject);
         }
