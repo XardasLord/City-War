@@ -61,7 +61,7 @@ BlendTree:
   m_Name: Upright Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 6fae76e46f88d99448e3b112477797f3, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 0ffcc2df51846bc4b97841523af14ad2, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -199,7 +199,7 @@ BlendTree:
   m_Name: Crouch Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 429988844c5b17049b6509056cce1fed, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 7ee1388cedf8bfa4a82072d1b3ae358c, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
