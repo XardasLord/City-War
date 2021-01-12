@@ -806,6 +806,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerCam: {fileID: 589727185}
   orientation: {fileID: 255446841}
+  head: {fileID: 3722866524181812889}
   moveInputs: {x: 0, y: 0}
   lookInputs: {x: 0, y: 0}
   lookAngleRange: 70

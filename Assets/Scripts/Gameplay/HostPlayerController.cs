@@ -38,19 +38,14 @@ namespace Gameplay
         private Camera _camera;
 
         public override void OnStartLocalPlayer()
-        {
-            if (isServer)
-                enabled = true;
-        }
+            => enabled = isServer;
 
         private void Awake() 
             => _camera = Camera.main;
 
 
-        private void Update()
-        {
-            Look();
-        }
+        private void Update() 
+            => Look();
 
         private void Look()
         {

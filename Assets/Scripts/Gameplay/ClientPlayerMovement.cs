@@ -9,6 +9,7 @@ namespace Gameplay
     {
         [SerializeField] private Transform playerCam;
         [SerializeField] private Transform orientation;
+        [SerializeField] private Transform head;
 
         [Header("Inputs")]
         [SerializeField] private Vector2 moveInputs; // X for move left/right, Y for move forward/back
@@ -204,6 +205,9 @@ namespace Gameplay
             //Perform the rotations
             playerCam.transform.localRotation = Quaternion.Euler(_lookRotationX, _desiredX, 0);
             orientation.transform.localRotation = Quaternion.Euler(0, _desiredX, 0);
+
+            // Follow the head position on Y axis
+            playerCam.transform.position = Vector3.Lerp(playerCam.transform.position, head.position, 50f * Time.deltaTime);
         }
 
         private void CounterMovement(float x, float y, Vector2 mag)
