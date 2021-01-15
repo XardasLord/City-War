@@ -15,6 +15,7 @@ namespace Gameplay.Weapons
         public float weaponCooldown = 1.0f;
         public int weaponAmmo = 15;
         public Transform weaponFirePosition;
+        public SkinnedMeshRenderer weaponRenderer;
 
         public abstract void Fire(Vector3 destinationPoint);
     }
