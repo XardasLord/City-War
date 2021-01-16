@@ -11,7 +11,7 @@ namespace Gameplay.Weapons
         [SerializeField] private List<Weapon> availableWeapons;
 
         [SyncVar(hook = nameof(OnWeaponChanged))] 
-        public int activeWeaponIndex = 0;
+        public int activeWeaponIndexSynced = 0;
 
         private float _weaponCooldownTime;
         private Camera _camera;
@@ -55,11 +55,23 @@ namespace Gameplay.Weapons
             var weaponSwitchDirection = Mathf.Sign(direction);
             if (weaponSwitchDirection == 1f)
             {
-                CmdSwitchToNextWeapon();
+                // Next weapon
+                var requestedWeaponIndex = activeWeaponIndexSynced + 1;
+
+                if (requestedWeaponIndex > availableWeapons.Count - 1)
+                    CmdSwitchWeapon(0); // We had last weapon so we switch to the first on the list
+                else 
+                    CmdSwitchWeapon(requestedWeaponIndex);
             }
             else
             {
-                Debug.Log("Previous weapon");
+                // Previous weapon
+                var requestedWeaponIndex = activeWeaponIndexSynced - 1;
+
+                if (requestedWeaponIndex < 0)
+                    CmdSwitchWeapon(availableWeapons.Count - 1); // Last weapon
+                else
+                    CmdSwitchWeapon(requestedWeaponIndex);
             }
         }
 
@@ -84,19 +96,12 @@ namespace Gameplay.Weapons
         }
 
         [Command]
-        public void CmdSwitchToNextWeapon()
+        public void CmdSwitchWeapon(int weaponIndex)
         {
             if (!CanSwitchWeapon())
                 return;
 
-            var currentWeaponIndex = availableWeapons.IndexOf(activeWeapon);
-
-            if (currentWeaponIndex == availableWeapons.Count - 1)
-                activeWeaponIndex = 0;
-            else
-                activeWeaponIndex = currentWeaponIndex + 1;
-
-            Debug.Log($"Weapon changed to: {activeWeapon.name}");
+            activeWeaponIndexSynced = weaponIndex;
         }
 
         #endregion
@@ -105,28 +110,11 @@ namespace Gameplay.Weapons
 
         private void OnWeaponChanged(int oldIndex, int newIndex)
         {
-            Debug.Log("SyncVar activeWeaponIndex changed");
-
             activeWeapon.weaponRenderer.enabled = false;
 
             activeWeapon = availableWeapons[newIndex];
 
-            // Enable renderer for new weapon
             activeWeapon.weaponRenderer.enabled = true;
-
-            //// disable old weapon
-            //// in range and not null
-            //if (0 < _Old && _Old < weaponArray.Length && weaponArray[_Old] != null)
-            //{
-            //    weaponArray[_Old].SetActive(false);
-            //}
-
-            //// enable new weapon
-            //// in range and not null
-            //if (0 < _New && _New < weaponArray.Length && weaponArray[_New] != null)
-            //{
-            //    weaponArray[_New].SetActive(true);
-            //}
         }
 
         #endregion
