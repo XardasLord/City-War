@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Mirror.SimpleWeb
 {
+    [DisallowMultipleComponent]
     public class SimpleWebTransport : Transport
     {
         public const string NormalScheme = "ws";
@@ -48,6 +49,9 @@ namespace Mirror.SimpleWeb
 
 
         [Header("Ssl Settings")]
+        [Tooltip("Sets connect scheme to wss. Useful when client needs to connect using wss when TLS is outside of transport, NOTE: if sslEnabled is true clientUseWss is also true")]
+        public bool clientUseWss;
+
         public bool sslEnabled;
         [Tooltip("Path to json file that contains path to cert and its password\n\nUse Json file so that cert password is not included in client builds\n\nSee cert.example.Json")]
         public string sslCertJson = "./cert.json";
@@ -126,7 +130,8 @@ namespace Mirror.SimpleWeb
         }
 
         #region Client
-        string GetScheme() => sslEnabled ? SecureScheme : NormalScheme;
+        string GetClientScheme() => (sslEnabled || clientUseWss) ? SecureScheme : NormalScheme;
+        string GetServerScheme() => sslEnabled ? SecureScheme : NormalScheme;
         public override bool ClientConnected()
         {
             // not null and not NotConnected (we want to return true if connecting or disconnecting)
@@ -144,7 +149,7 @@ namespace Mirror.SimpleWeb
 
             UriBuilder builder = new UriBuilder
             {
-                Scheme = GetScheme(),
+                Scheme = GetClientScheme(),
                 Host = hostname,
                 Port = port
             };
@@ -283,7 +288,7 @@ namespace Mirror.SimpleWeb
         {
             UriBuilder builder = new UriBuilder
             {
-                Scheme = GetScheme(),
+                Scheme = GetServerScheme(),
                 Host = Dns.GetHostName(),
                 Port = port
             };
