@@ -842,7 +842,7 @@ MonoBehaviour:
   availableWeapons:
   - {fileID: 8691945534722547586}
   - {fileID: 4557579450057154657}
-  activeWeaponIndex: 0
+  activeWeaponIndexSynced: 0
 --- !u!114 &1997646117575779
 MonoBehaviour:
   m_ObjectHideFlags: 0
