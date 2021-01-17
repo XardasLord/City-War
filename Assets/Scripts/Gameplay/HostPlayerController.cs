@@ -38,7 +38,13 @@ namespace Gameplay
         private Camera _camera;
 
         public override void OnStartLocalPlayer()
-            => enabled = isServer;
+        {
+            if (isServer)
+            {
+                enabled = true;
+                gameObject.SetActive(false);
+            }
+        }
 
         private void Awake() 
             => _camera = Camera.main;
