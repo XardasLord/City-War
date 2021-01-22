@@ -110,11 +110,19 @@ namespace Gameplay.Weapons
 
         private void OnWeaponChanged(int oldIndex, int newIndex)
         {
-            activeWeapon.weaponRenderer.enabled = false;
+            foreach (var weaponRenderer in activeWeapon.weaponRenderer)
+            {
+                weaponRenderer.enabled = false;
+            }
+            //activeWeapon.weaponRenderer.enabled = false;
 
             activeWeapon = availableWeapons[newIndex];
 
-            activeWeapon.weaponRenderer.enabled = true;
+            foreach (var weaponRenderer in activeWeapon.weaponRenderer)
+            {
+                weaponRenderer.enabled = true;
+            }
+            //activeWeapon.weaponRenderer.enabled = true;
         }
 
         #endregion

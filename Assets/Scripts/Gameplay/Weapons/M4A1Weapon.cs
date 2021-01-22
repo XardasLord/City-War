@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Weapons
 {
-    public class RifleWeapon : Weapon
+    public class M4A1Weapon : Weapon
     {
         [Server]
         public override void Fire(Vector3 destinationPoint)
