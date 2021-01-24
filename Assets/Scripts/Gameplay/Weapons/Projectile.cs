@@ -35,6 +35,9 @@ namespace Gameplay.Weapons
                 Debug.Log($"Projectile hit player with damage - {_shotFromWeapon.weaponDamage}");
                 
                 // TODO: Particle effect of hit
+
+                var playerHealthScript = collider.transform.root.GetComponent<ClientPlayerHealth>();
+                playerHealthScript.Hit(_shotFromWeapon.weaponDamage);
             }
 
             NetworkServer.Destroy(gameObject);
