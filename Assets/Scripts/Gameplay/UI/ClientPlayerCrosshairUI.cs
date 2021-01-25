@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Gameplay
+namespace Gameplay.UI
 {
-    public class ClientPlayerCrosshair : NetworkBehaviour
+    public class ClientPlayerCrosshairUI : NetworkBehaviour
     {
         [SerializeField] private Image crosshairImage;
 
