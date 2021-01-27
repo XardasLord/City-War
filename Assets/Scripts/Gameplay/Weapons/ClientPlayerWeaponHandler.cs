@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Gameplay.UI;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,13 +12,14 @@ namespace Gameplay.Weapons
         [SerializeField] private Weapon activeWeapon;
         [SerializeField] private List<Weapon> availableWeapons;
 
-        [SyncVar(hook = nameof(OnWeaponChanged))] 
+        [SyncVar(hook = nameof(OnWeaponChanged))]
         public int activeWeaponIndexSynced = 0;
 
         private float _weaponCooldownTime;
         private Camera _camera;
+        private ClientPlayerAmmoUI _clientPlayerAmmoUI;
 
-        public override void OnStartLocalPlayer() 
+        public override void OnStartLocalPlayer()
             => enabled = !isServer;
 
         #region InputAction Events
@@ -27,9 +30,6 @@ namespace Gameplay.Weapons
                 return;
 
             if (!context.performed)
-                return;
-
-            if (!CanShoot())
                 return;
 
             var targetPoint = GetTargetShootPoint();
@@ -60,7 +60,7 @@ namespace Gameplay.Weapons
 
                 if (requestedWeaponIndex > availableWeapons.Count - 1)
                     CmdSwitchWeapon(0); // We had last weapon so we switch to the first on the list
-                else 
+                else
                     CmdSwitchWeapon(requestedWeaponIndex);
             }
             else
@@ -79,8 +79,11 @@ namespace Gameplay.Weapons
 
 
         [ClientCallback]
-        private void Awake() 
-            => _camera = Camera.main;
+        private void Awake()
+        {
+            _camera = Camera.main;
+            _clientPlayerAmmoUI = GetComponent<ClientPlayerAmmoUI>();
+        }
 
         #region Server
 
@@ -89,10 +92,12 @@ namespace Gameplay.Weapons
         {
             if (!CanShoot())
                 return;
-            
+
             _weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
 
             activeWeapon.Fire(targetPoint);
+
+            TargetWeaponFired(activeWeapon.weaponAmmo);
         }
 
         [Command]
@@ -102,6 +107,7 @@ namespace Gameplay.Weapons
                 return;
 
             activeWeaponIndexSynced = weaponIndex;
+            TargetWeaponSwitched(activeWeapon.weaponAmmo);
         }
 
         #endregion
@@ -114,7 +120,6 @@ namespace Gameplay.Weapons
             {
                 weaponRenderer.enabled = false;
             }
-            //activeWeapon.weaponRenderer.enabled = false;
 
             activeWeapon = availableWeapons[newIndex];
 
@@ -122,7 +127,20 @@ namespace Gameplay.Weapons
             {
                 weaponRenderer.enabled = true;
             }
-            //activeWeapon.weaponRenderer.enabled = true;
+        }
+
+        [TargetRpc]
+        public void TargetWeaponFired(int weaponAmmo)
+        {
+            Debug.Log("Weapon fired");
+            _clientPlayerAmmoUI.ChangeAvailableAmmo(weaponAmmo);
+        }
+
+        [TargetRpc]
+        public void TargetWeaponSwitched(int weaponAmmo)
+        {
+            Debug.Log("Weapon switched");
+            _clientPlayerAmmoUI.ChangeAvailableAmmo(weaponAmmo);
         }
 
         #endregion
@@ -145,7 +163,7 @@ namespace Gameplay.Weapons
             return targetPoint;
         }
 
-        private bool CanSwitchWeapon() 
+        private bool CanSwitchWeapon()
             => availableWeapons.Count > 1;
     }
 }
