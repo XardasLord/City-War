@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Gameplay.UI;
 using Gameplay.UI;
+using Gameplay.Weapons;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Gameplay.Weapons
+namespace Assets.Scripts.Gameplay.Weapons
 {
     public class ClientPlayerWeaponHandler : NetworkBehaviour
     {
@@ -18,6 +19,7 @@ namespace Gameplay.Weapons
         private float _weaponCooldownTime;
         private Camera _camera;
         private ClientPlayerAmmoUI _clientPlayerAmmoUI;
+        private ClientPlayerWeaponUI _clientPlayerWeaponUI;
 
         public override void OnStartLocalPlayer()
             => enabled = !isServer;
@@ -83,6 +85,10 @@ namespace Gameplay.Weapons
         {
             _camera = Camera.main;
             _clientPlayerAmmoUI = GetComponent<ClientPlayerAmmoUI>();
+            _clientPlayerWeaponUI = GetComponent<ClientPlayerWeaponUI>();
+
+            // Set default UI text for client when joins the game
+            SetDefaultUIInfo();
         }
 
         #region Server
@@ -107,7 +113,7 @@ namespace Gameplay.Weapons
                 return;
 
             activeWeaponIndexSynced = weaponIndex;
-            TargetWeaponSwitched(activeWeapon.weaponAmmo);
+            TargetWeaponSwitched(activeWeapon.weaponAmmo, activeWeapon.name); // TODO: later on add property to weapon with its name instead of gameobject's name
         }
 
         #endregion
@@ -137,10 +143,11 @@ namespace Gameplay.Weapons
         }
 
         [TargetRpc]
-        public void TargetWeaponSwitched(int weaponAmmo)
+        public void TargetWeaponSwitched(int weaponAmmo, string weaponName)
         {
             Debug.Log("Weapon switched");
             _clientPlayerAmmoUI.ChangeAvailableAmmo(weaponAmmo);
+            _clientPlayerWeaponUI.ChangeWeaponName(weaponName);
         }
 
         #endregion
@@ -165,5 +172,11 @@ namespace Gameplay.Weapons
 
         private bool CanSwitchWeapon()
             => availableWeapons.Count > 1;
+        
+        private void SetDefaultUIInfo()
+        {
+            _clientPlayerAmmoUI.ChangeAvailableAmmo(activeWeapon.weaponAmmo);
+            _clientPlayerWeaponUI.ChangeWeaponName(activeWeapon.name);
+        }
     }
 }

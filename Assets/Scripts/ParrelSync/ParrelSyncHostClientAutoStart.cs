@@ -1,8 +1,9 @@
 ﻿#if UNITY_EDITOR
 using Mirror;
+using ParrelSync;
 using UnityEngine;
 
-namespace ParrelSync
+namespace Assets.Scripts.ParrelSync
 {
     public class ParrelSyncHostClientAutoStart : MonoBehaviour
     {
