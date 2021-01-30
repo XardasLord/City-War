@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Assets.Scripts.Gameplay;
+using Mirror;
 using UnityEngine;
 
 namespace Gameplay.Weapons

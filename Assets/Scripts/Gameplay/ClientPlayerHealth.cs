@@ -1,7 +1,8 @@
+using Assets.Scripts.Gameplay.UI;
 using Mirror;
 using UnityEngine;
 
-namespace Gameplay
+namespace Assets.Scripts.Gameplay
 {
     public class ClientPlayerHealth : NetworkBehaviour
     {
@@ -23,6 +24,8 @@ namespace Gameplay
         private void OnTookDamage(int oldValue, int newValue)
         {
             // TODO: Destroy the game object on the server and load death screen for the player when health <= 0
+            GetComponent<ClientPlayerHealthUI>().ChangeHealthValue(newValue);
+            
             Debug.Log($"Player got hit. Current health - {newValue}");
         }
     }

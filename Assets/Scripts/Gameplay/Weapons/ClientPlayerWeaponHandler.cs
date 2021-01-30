@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Gameplay.Weapons
 {
-    public class ClientPlayerWeaponHandler : NetworkBehaviour
+	public class ClientPlayerWeaponHandler : NetworkBehaviour
     {
         [SerializeField] private Weapon activeWeapon;
         [SerializeField] private List<Weapon> availableWeapons;
