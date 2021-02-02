@@ -3,7 +3,10 @@ guid: 0589fff3a224e2d49b0b0560b1aab7fe
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - weaponProjectile: {instanceID: 0}
+  - weaponFirePosition: {instanceID: 0}
+  - weaponFireEffect: {fileID: 4576013492636887699, guid: cb921af6a7561ec4db00f3934abbfdde, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

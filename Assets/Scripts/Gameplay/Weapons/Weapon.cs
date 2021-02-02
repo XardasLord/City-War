@@ -17,6 +17,9 @@ namespace Gameplay.Weapons
         public Transform weaponFirePosition;
         public MeshRenderer[] weaponRenderer;
 
+        [Header("Weapon Effects")] 
+        public ParticleSystem weaponFireEffect;
+
         public abstract void Fire(Vector3 destinationPoint);
     }
 }

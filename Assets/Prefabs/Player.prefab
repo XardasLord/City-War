@@ -889,6 +889,7 @@ MonoBehaviour:
   - {fileID: 7240195554356957323}
   - {fileID: 7240195554356957321}
   - {fileID: 7240195554356957327}
+  weaponFireEffect: {fileID: 4576013492636887699, guid: cb921af6a7561ec4db00f3934abbfdde, type: 3}
 --- !u!1 &3354456481885891859
 GameObject:
   m_ObjectHideFlags: 0
@@ -4230,6 +4231,7 @@ MonoBehaviour:
   - {fileID: 1741595832129121052}
   - {fileID: 1741595832129121054}
   - {fileID: 1741595832129121048}
+  weaponFireEffect: {fileID: 4576013492636887699, guid: cb921af6a7561ec4db00f3934abbfdde, type: 3}
 --- !u!1 &4495168822853042710
 GameObject:
   m_ObjectHideFlags: 0
