@@ -1,7 +1,8 @@
-﻿using Mirror;
+﻿using Gameplay.Weapons;
+using Mirror;
 using UnityEngine;
 
-namespace Gameplay.Weapons
+namespace Assets.Scripts.Gameplay.Weapons
 {
     public class Ak47Weapon : Weapon
     {

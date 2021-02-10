@@ -20,6 +20,7 @@ namespace Assets.Scripts.Gameplay.Weapons
         private Camera _camera;
         private ClientPlayerAmmoUI _clientPlayerAmmoUI;
         private ClientPlayerWeaponUI _clientPlayerWeaponUI;
+        private ClientPlayerWeaponSound _clientPlayerWeaponSound;
 
         public override void OnStartLocalPlayer()
             => enabled = !isServer;
@@ -86,6 +87,7 @@ namespace Assets.Scripts.Gameplay.Weapons
             _camera = Camera.main;
             _clientPlayerAmmoUI = GetComponent<ClientPlayerAmmoUI>();
             _clientPlayerWeaponUI = GetComponent<ClientPlayerWeaponUI>();
+            _clientPlayerWeaponSound = GetComponent<ClientPlayerWeaponSound>();
 
             // Set default UI text for client when joins the game
             SetDefaultUIInfo();
@@ -140,6 +142,7 @@ namespace Assets.Scripts.Gameplay.Weapons
         {
             Debug.Log("Weapon fired");
             _clientPlayerAmmoUI.ChangeAvailableAmmo(weaponAmmo);
+            _clientPlayerWeaponSound.PlayFireSound(activeWeapon.weaponFireSound);
         }
 
         [TargetRpc]

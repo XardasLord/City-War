@@ -19,6 +19,7 @@ namespace Gameplay.Weapons
 
         [Header("Weapon Effects")] 
         public ParticleSystem weaponFireEffect;
+        public AudioClip weaponFireSound;
 
         public abstract void Fire(Vector3 destinationPoint);
     }
