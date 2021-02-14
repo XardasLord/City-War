@@ -882,7 +882,7 @@ MonoBehaviour:
   weaponProjectileLifeInSeconds: 3
   weaponProjectile: {fileID: 8659409683230746336, guid: e6a254e72fef333439e696cad9a62392, type: 3}
   weaponDamage: 20
-  weaponCooldown: 1
+  weaponCooldown: 0.05
   weaponAmmo: 40
   weaponFirePosition: {fileID: 1952705566738881612}
   weaponRenderer:
@@ -4337,7 +4337,7 @@ MonoBehaviour:
   weaponProjectileLifeInSeconds: 3
   weaponProjectile: {fileID: 8659409683230746336, guid: 56e19642e105eba4390b01f627cd6af6, type: 3}
   weaponDamage: 40
-  weaponCooldown: 1
+  weaponCooldown: 0.05
   weaponAmmo: 15
   weaponFirePosition: {fileID: 2555890240061558150}
   weaponRenderer:
